@@ -29,7 +29,7 @@ const obtener = async (req, res) => {
 
 const crear = async (req, res) => {
   try {
-    const {nombre, apellido, gmail, contraseña } = req.params
+    const {id,nombre, apellido, gmail, contraseña } = req.body
 
     // Validaciones
     if (!nombre || nombre.length < 4) {
@@ -41,17 +41,13 @@ const crear = async (req, res) => {
     if (!contraseña || regExPassword.test(contraseña)) {
       return res.status(401).json({error: "formato de contraseña inválido"})
     }
-    if (!gmail || regExEmail.test(gmail)) {
+    if (!gmail || !regExEmail.test(gmail)) {
       return res.status(401).json({error: "format de correo inválido"})
     }
-    const productoNuevo = await Producto.create({ 
-      nombre: nombre, apellido: apellido, gmail: gmail, contraseña:contraseña 
-    });
-    productoNuevo.save();
-    return res.status(200).json({
-      message: "Producto creado!",
-      data: productoNuevo
-    })
+    const query = "INSERT INTO `usuarios` (id, nombre, apellido, gmail, contraseña) VALUES (?, ?, ?,?,?)"
+
+    const producto =  await promiseQuery(query, [id, nombre, apellido, gmail, contraseña])
+    res.json(producto)
 
   } catch (error) {
     return res.status(500).json({error: "Internal Server Error"})
@@ -60,11 +56,11 @@ const crear = async (req, res) => {
 
 const actualizar = async (req, res) => {
   try {
-    const {id}=req.params
-    const {nombre, apellido, email} = req.body
-    const query = "UPDATE productos SET nombre = ?, apellido = ?, email = ? WHERE id = ?"
+    const {id}=req.query
+    const {nombre, apellido, gmail} = req.body
+    const query = "UPDATE `usuarios` SET nombre = ?, apellido = ?, gmail = ? WHERE id = ?"
     
-    await promiseQuery(query, [id, nombre, apellido, email, req.params.id])
+    await promiseQuery(query, [nombre, apellido, gmail, id])
     res.json({message: "Producto actualizado exitosamente"})
   } catch (error) {
     throw error
@@ -73,8 +69,9 @@ const actualizar = async (req, res) => {
 
 const borrar = async (req, res) => {
   try {
-    const query = "DELETE FROM productos WHERE id = ?"
-    await promiseQuery(query, [req.params.id])
+    const {id}=req.query;
+    const query = "DELETE FROM usuarios WHERE id = ?"
+    await promiseQuery(query, [id])
     res.json({message: "Producto borrado"})
   } catch (error) {
     throw error

@@ -1,0 +1,19 @@
+{
+  "name": "node_modularizado",
+  "version": "1.0.0",
+  "description": "NodeJS es un entorno de ejecución de JavaScript que permite ejecutar código JavaScript en el servidor.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
+    "mysql": "^2.18.1",
+    "mysql2": "^3.10.1",
+    "sequelize": "^6.37.3"
+  }
+}
