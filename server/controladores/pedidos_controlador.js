@@ -60,7 +60,7 @@ const update_pedidos= async (req, res) => {
 /**
  * Borra un pedido
  * @param {*} req 
- * @param {*} res 
+ * @param {*} res
  */
 const delete_pedidos= async (req, res) => {
     try {
