@@ -1,0 +1,40 @@
+html body {
+  background-color: #252c37;
+  color: #f8c617;
+}
+.container .table .thead {
+  background-color: #252c37;
+  border-color: #f8c617;
+}
+.card-body a {
+  color: #f8c617;
+  text-decoration: none;
+}
+.card {
+  text-align: center;
+  height: 100px;
+}
+.btn {
+  border-color: #f8c617;
+  color: #f8c617;
+}
+#tipo_cuenta {
+  text-align: center;
+  text-decoration: underline;
+  font-size: 1.5em;
+  font-style: italic;
+}
+#card_comerciante, #card_proveedor {
+  background-color: #252c37;
+  border-color: #f8c617;
+  color: #f8c617;
+}
+#form, #form_productos {
+  background-color: #252c37;
+  border-color: #f8c617;
+  color: #f8c617;
+  max-width: 600px;
+  margin: 20px auto;
+}
+
+/*# sourceMappingURL=main.css.map */
