@@ -54,12 +54,15 @@ const obtener_id_productos= async (req, res) => {
  */
 const insertar_productos= async (req, res) => {
     try {
-        // const { nombre, precio, stock }= req.body
-        // const query= "insert into productos (nombre, precio, stock) values (?, ?, ?)";
-        // await promiseQuery (query, [nombre, precio, stock]);
-        // res.json ({ message: "producto ingresado" });
+        const { nombre, precio, stock }= req.body
+        const file= req.files.foto_producto;
+        console.log(file)
+        const upload = await cloudinary.uploader.upload (file.tempFilePath, {
+            folder: 'imagenes'
+        });
+        console.log(upload.secure_url)
 
-        const productos= await producto.findOrCreate (nombre, precio, stock);
+        const productos= await producto.findOrCreate({nombre, precio, stock, foto: upload.secure_url});
 
         res.json (productos);
     } 
