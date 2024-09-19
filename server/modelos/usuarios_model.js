@@ -5,11 +5,6 @@ const sequelize= require ('../config/data_base');
  * estructura de la tabla usuarios
  */
 const usuarios= sequelize.define ('usuarios', {
-    id_usuario: {
-        type: Sequelize.STRING,
-        primaryKey: true, 
-        allowNull: false,
-    },
     nombre: {
         type: Sequelize.STRING,
         allowNull: false,
@@ -21,18 +16,16 @@ const usuarios= sequelize.define ('usuarios', {
     gmail: {
         type: Sequelize.STRING,
         allowNull: false,
+        primaryKey: true,
         validate: {
             isEmail: true,
         }
     },
-    contraseña: {
+    contraseña_hasheada: {
         type: Sequelize.STRING,
-        allowNull: false,
-        validate: {
-            isPassword: /^[0-9a-f]{64}$/i,
-        }
+        allowNull: false
     },
+},{
+    timestamps:false,
 });
-
-usuarios.sync ({ alter: true });
 module.exports= usuarios;

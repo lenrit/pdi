@@ -1,12 +1,12 @@
 const { Sequelize }= require ('sequelize');
-const sequelize= require ('../config/db_sequelize');
+const sequelize= require ('../config/data_base');
 
 /**
  * estructura de la tabla de pedidos
  */
 const pedidos= sequelize.define ('pedidos', {
     id_pedido: {
-        type: Sequelize.NUMBER,
+        type: Sequelize.INTEGER,
         primaryKey: true,
         allowNull: true,
         validate: {
@@ -14,24 +14,20 @@ const pedidos= sequelize.define ('pedidos', {
         }
     },
     id_producto: {
-        type: Sequelize.NUMBER,
+        type: Sequelize.INTEGER,
         primaryKey: true,
         allowNull: false,
         references: {
-            model: 'productos',
-            key: 'id_productos',
+            model: 'producto',
+            key: 'id_producto'
         }
     },
     id_comerciante: {
-        type: Sequelize.NUMBER,
-        allowNull: false,
-        references: {
-            model: 'comerciante',
-            key: 'id_comerciante',
-        }
+        type: Sequelize.INTEGER,
+        allowNull: false
     },
     cantidad: {
-        type: Sequelize.NUMBER,
+        type: Sequelize.INTEGER,
         allowNull: false,
         validate: {
             isInt: true,
@@ -44,7 +40,7 @@ const pedidos= sequelize.define ('pedidos', {
             isDate: true,
         }
     },
+},{
+    timestamps:false,
 })
-
-pedidos.sync ({ alter: true });
 module.exports= pedidos;

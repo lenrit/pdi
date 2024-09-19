@@ -35,7 +35,7 @@ const obtener_id_pedidos= async (req, res) => {
         // const query= "select * from pedidos where id_pedido= ?";
         // const pedidos= await promiseQuery (query, [id_pedido]);
 
-        const pedidos= await pedido.find (id_pedido);
+        const pedidos= await pedido.findByPk (id_pedido);
 
         res.json (pedidos);  
     } 
@@ -51,11 +51,9 @@ const obtener_id_pedidos= async (req, res) => {
  */
 const insertar_pedidos= async (req, res) => {
     try {
-        // const query= "insert into pedidos (id_pedido, id_producto, id_comerciante, cantidad, fecha) values (?, ?, ?, ?, ?)";
-        // await promiseQuery (query, [id_pedido, id_producto, id_comerciante, cantidad, fecha]);
-        // res.json ({ message: "pedidos ingresados" });
 
-        const pedidos= await pedido.findOrCreate (id_pedido, id_producto, id_comerciante, cantidad, fecha);
+        const { id_pedido, id_producto, id_comerciante, cantidad, fecha}= req.body
+        const pedidos= await pedido.create ({id_pedido, id_producto, id_comerciante, cantidad, fecha});
 
         res.json (pedidos);
     } 
@@ -71,21 +69,19 @@ const insertar_pedidos= async (req, res) => {
  */
 const update_pedidos= async (req, res) => {
     try {
-        const { id_pedidos }= req.params;
+        const { id }= req.params;
         const { id_producto, id_comerciante, cantidad, fecha }= req.body;
-        // const query= "update pedidos set id_producto= ?, id_comerciante= ?, cantidad= ?, fecha= ? where id_pedido= ?";
 
         const pedidos= await pedido.update ({
-            id_producto: 'id_producto',
-            id_comerciante: 'id_comerciante',
-            cantidad: 'cantidad',
-            fecha: 'fecha',
+            id_producto: id_producto,
+            id_comerciante: id_comerciante,
+            cantidad: cantidad,
+            fecha: fecha,
+        },{
             where: {
-                id_pedido: 'id_pedido'
+                id_pedido: id
             }
         });
-
-        await pedidos.save ();
 
         res.json (pedidos);
     } 
@@ -101,18 +97,13 @@ const update_pedidos= async (req, res) => {
  */
 const delete_pedidos= async (req, res) => {
     try {
-        const { id_pedido }= req.params;
-        // const query= "delete from pedidos where id_pedido= ?";
-        // const pedidos= await promiseQuery (query, [id_pedido, id_producto, id_comerciante, cantidad, fecha]);
-        // res.json (pedidos);
+        const { id }= req.params;
 
         const pedidos= await pedido.destroy ({
             where: {
-                id_pedido: 'id_pedido'
+                id_pedido: id
             }
         });
-
-        await pedidos.save ();
 
         res.json (pedidos);
     } 

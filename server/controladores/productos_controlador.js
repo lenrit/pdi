@@ -1,5 +1,4 @@
 const express= require ('express');
-const promiseQuery= require ('../config/data_base');
 const producto= require ('../modelos/productos_model');;
 const cloudinary = require('../config/cloudinary')
 
@@ -34,11 +33,11 @@ const obtener_productos= async (req, res) => {
  */
 const obtener_id_productos= async (req, res) => {
     try {
-        // const { id }= req.params;
+        const { id }= req.params;
         // const query= "select * from productos where id= ?";
         // const productos= await promiseQuery (query, [id]);
 
-        const productos= await producto.find (id);
+        const productos= await producto.findByPk (id);
 
         res.json (productos);        
     } 
@@ -54,15 +53,15 @@ const obtener_id_productos= async (req, res) => {
  */
 const insertar_productos= async (req, res) => {
     try {
-        const { nombre, precio, stock }= req.body
-        const file= req.files.foto_producto;
-        console.log(file)
-        const upload = await cloudinary.uploader.upload (file.tempFilePath, {
-            folder: 'imagenes'
-        });
-        console.log(upload.secure_url)
+        const { id_producto,nombre, precio, stock }= req.body
+        // const file= req.files.foto_producto;
+        // console.log(file)
+        // const upload = await cloudinary.uploader.upload (file.tempFilePath, {
+        //     folder: 'imagenes'
+        // });
+        // console.log(upload.secure_url)
 
-        const productos= await producto.findOrCreate({nombre, precio, stock, foto: upload.secure_url});
+        const productos= await producto.create({id_producto,nombre, precio, stock});
 
         res.json (productos);
     } 
@@ -78,20 +77,19 @@ const insertar_productos= async (req, res) => {
  */
 const update_productos= async (req, res) => {
     try {
-        // const { id }= req.params;
-        // const { nombre, precio, stock }= req.body;
+        const { id }= req.params;
+        const { nombre, precio, stock }= req.body;
         // const query= "update productos set nombre= ?, precio= ?, stock= ? where id= ?";
 
         const productos= await producto.update ({
-            nombre: 'nombre',
-            precio: 'precio',
-            stock: 'stock',
+            nombre: nombre,
+            precio: precio,
+            stock: stock,
+        },{
             where: {
-                id: 'id'
+                id_producto: id
             }
         });
-
-        await productos.save ();
 
         res.json (productos);
     } 
@@ -107,18 +105,13 @@ const update_productos= async (req, res) => {
  */
 const delete_productos= async (req, res) => {
     try {
-        // const { id }= req.params;
-        // const query= "delete from productos where id= ?";
-        // const productos= await promiseQuery (query, [id, nombre, precio, stock]);
-        // res.json (productos);
+        const { id }= req.params;
 
         const productos= await producto.destroy ({
             where: {
-                id: 'id'
+                id_producto: id
             }
         });
-
-        await productos.save ();
 
         res.json (productos);
     } 
