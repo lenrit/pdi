@@ -1,10 +1,10 @@
-const {DataTypes} = require ('sequelize');
+const { DataTypes } = require ('sequelize');
 const db= require ('../config/data_base');
 
 /**
  * estructura de la tabla productos
  */
-const productos= db.define ('producto', {
+const productos= db.define ('productos', {
     id_producto: {
         type: DataTypes.INTEGER,
         primaryKey: true
@@ -21,7 +21,7 @@ const productos= db.define ('producto', {
         allowNull: false
     },
     stock: {
-        type: DataTypes.BOOLEAN,
+        type: DataTypes.INTEGER,
         allowNull: false,
         defaultValue: 0,
     },
