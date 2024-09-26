@@ -15,10 +15,6 @@ const salt_rounds= 10;
  */
 const obtener_usuarios= async (req, res) => {
     try {
-        // const query= "select * from usuarios";
-        // const usuarios= await promiseQuery (query);
-        // res.json (usuarios);
-
         const usuarios= await usuario.findAll ();
 
         res.json (usuarios);
@@ -36,9 +32,7 @@ const obtener_usuarios= async (req, res) => {
 const obtener_id= async (req, res) => {
     try {
         const id= req.params.id;
-        // const query= "select * from usuarios where id= ?";
-        // const usuarios= await promiseQuery (query, [id]);
-
+        
         const usuarios= await usuario.find (id);
 
         res.json (usuarios);   
@@ -55,10 +49,7 @@ const obtener_id= async (req, res) => {
  */
 const insertar_usuarios= async (req, res) => {
     try {
-        const { nombre, apellido, gmail, contraseña }= req.body
-        // const query= "insert into usuarios (nombre, apellido, gmail, contraseña) values (?, ?, ?, ?)";
-        // await promiseQuery (query, [nombre, apellido, gmail, contraseña]);
-        // res.json ({ message: "usuarios ingresados" });
+        const { nombre, apellido, gmail, contraseña }= req.body;
 
         const hash= await bcrypt.hash (contraseña, salt_rounds);
 
@@ -80,7 +71,6 @@ const update_usuarios= async (req, res) => {
     try {
         const { id }= req.params;
         const { nombre, apellido, gmail, contraseña }= req.body;
-        // const query= "update productos set nombre= ?, apellido= ?, gmail= ?, contraseña= ? where id= ?";
 
         const usuarios= await pedido.update ({
             nombre: 'nombre',
@@ -109,10 +99,7 @@ const update_usuarios= async (req, res) => {
 const delete_usuarios= async (req, res) => {
     try {
         const { id }= req.params;
-        // const query= "delete from usuarios where id= ?";
-        // const usuarios= await promiseQuery (query, id);
-        // res.json (usuarios);
-
+        
         const usuarios= await usuario.destroy ({
             where: {
                 id: 'id'
