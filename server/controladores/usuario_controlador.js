@@ -33,7 +33,7 @@ const obtener_id= async (req, res) => {
     try {
         const id= req.params.id;
         
-        const usuarios= await usuario.find (id);
+        const usuarios= await usuario.findByPk (id);
 
         res.json (usuarios);   
     } 
@@ -49,12 +49,13 @@ const obtener_id= async (req, res) => {
  */
 const insertar_usuarios= async (req, res) => {
     try {
-        const { nombre, apellido, gmail, contraseña }= req.body;
+        const { id_usuario,nombre, apellido, gmail, password }= req.body;
+        console.log(nombre, apellido, gmail, password);
+        const contraseña= await bcrypt.hash (password, salt_rounds);
 
-        const hash= await bcrypt.hash (contraseña, salt_rounds);
-
-        const usuarios= await usuario.findOrCreate (nombre, apellido, gmail, hash);
-
+        // const usuarios= await usuario.create (nombre, apellido, gmail, hash);
+        const usuarios= await usuario.create ({id_usuario,nombre,apellido,gmail,contraseña});
+        await usuarios.save();
         res.json (usuarios);
     } 
     catch (error){
@@ -72,17 +73,18 @@ const update_usuarios= async (req, res) => {
         const { id }= req.params;
         const { nombre, apellido, gmail, contraseña }= req.body;
 
-        const usuarios= await pedido.update ({
-            nombre: 'nombre',
-            apellido: 'apellido',
-            gmail: 'gmail',
-            contraseña: 'contraseña',
+        const usuarios= await usuario.update ({
+            nombre,
+            apellido,
+            gmail,
+            contraseña,
+        },{
             where: {
-                id: 'id'
+                id_usuario: id
             }
         });
 
-        await usuarios.save ();
+        // await usuarios.save ();
 
         res.json (usuarios);
     } 
@@ -102,11 +104,9 @@ const delete_usuarios= async (req, res) => {
         
         const usuarios= await usuario.destroy ({
             where: {
-                id: 'id'
+                id_usuario: id
             }
         });
-
-        await usuarios.save ();
 
         res.json (usuarios);
     } 

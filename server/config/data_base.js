@@ -1,14 +1,21 @@
 require('dotenv').config();
-const mysql= require ('mysql2');
 const { Sequelize }= require ('sequelize');
 
 /**
  * bases de datos
  */
-const sequelize= new Sequelize (process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASSWORD, {
+const sequelize= new Sequelize (process.env.DB_NAME, process.env.DB_USER,'',{
     host: process.env.DB_HOST,
     port: process.env.DB_PORT,
-    dialect: 'mysql',
+    dialect:process.env.DB_DIALECT,
+    retry: {
+        match: [
+            Sequelize.ConnectionError,
+            Sequelize.ConnectionTimedOutError,
+            Sequelize.TimeoutError,
+            /Deadlock/i],
+        max: 5
+    }    
 });
 
 module.exports= sequelize;

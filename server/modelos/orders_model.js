@@ -15,13 +15,21 @@ const pedidos= sequelize.define ('pedidos', {
     },
     id_producto: {
         type: Sequelize.INTEGER,
-        primaryKey: true,
+        // primaryKey: true,
         allowNull: false,
+        references: {
+            model: "productos",
+            key: 'id_producto'
+          }
     },
     id_usuario: {
         type: Sequelize.INTEGER,
-        primaryKey:true,
-        allowNull: false
+        // primaryKey:true,
+        allowNull: false,
+        references: {
+            model: "usuarios",
+            key: 'id_usuario'
+          }
     },
     cantidad: {
         type: Sequelize.INTEGER,
@@ -30,16 +38,10 @@ const pedidos= sequelize.define ('pedidos', {
             isInt: true,
         }
     },
-    fecha: {
-        type: Sequelize.DATE,
-        allowNull: false,
-        validate: {
-            isDate: true,
-        }
-    },
 },{
-    timestamps:false,
+    timestamps:true,
 });
 
 pedidos.sync ({ alter: true });
+console.log("order");
 module.exports= pedidos;

@@ -9,7 +9,6 @@ const ruta_usuarios= require ('./rutas/user_routes');
 const ruta_pedidos= require ('./rutas/order_routes');
 
 
-
 app.use ('/usuarios', ruta_usuarios);
 app.use ('/productos', ruta_productos);
 app.use ('/pedidos', ruta_pedidos);

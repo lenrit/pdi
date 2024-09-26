@@ -29,7 +29,7 @@ const usuarios= sequelize.define ('usuarios', {
         type: Sequelize.STRING,
         allowNull: false,
         // validate: {
-        //     isPassword: /^[0-9a-f]{64}$/i,
+        //     is: /^[0-9a-f]{64}$/i,
         // }
     },
 },{
@@ -37,4 +37,5 @@ const usuarios= sequelize.define ('usuarios', {
 });
 
 usuarios.sync ({ alter: true });
+console.log("usuarios");
 module.exports= usuarios;
