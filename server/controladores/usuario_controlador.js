@@ -5,7 +5,8 @@ const { hashSync } = require('bcrypt');
 const bcrypt= require ('bcrypt');
 const salt_rounds= 10;
 
-
+regExCorreo=/^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})$/;
+regExPassword=/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,10}$/;
 // controladores 
 
 /**
@@ -32,8 +33,8 @@ const obtener_usuarios= async (req, res) => {
 const obtener_id= async (req, res) => {
     try {
         const id= req.params.id;
-        
-        const usuarios= await usuario.findByPk (id);
+ 
+        const usuarios= await usuario.find (id);
 
         res.json (usuarios);   
     } 
@@ -49,13 +50,18 @@ const obtener_id= async (req, res) => {
  */
 const insertar_usuarios= async (req, res) => {
     try {
-        const { id_usuario,nombre, apellido, gmail, password }= req.body;
-        console.log(nombre, apellido, gmail, password);
+        const { nombre, apellido, gmail, password }= req.body
+        if(!regExPassword.test(password)){
+            res.json({message:"contraseña invalida"});
+            return false;
+        }
         const contraseña= await bcrypt.hash (password, salt_rounds);
+        if(await !regExCorreo.test(gmail)){
+            res.json({message:"correo invalido"});
+            return false;
+        }
+        const usuarios= await usuario.create ({id_usuario,nombre, apellido, gmail, contraseña});
 
-        // const usuarios= await usuario.create (nombre, apellido, gmail, hash);
-        const usuarios= await usuario.create ({id_usuario,nombre,apellido,gmail,contraseña});
-        await usuarios.save();
         res.json (usuarios);
     } 
     catch (error){
@@ -73,18 +79,17 @@ const update_usuarios= async (req, res) => {
         const { id }= req.params;
         const { nombre, apellido, gmail, contraseña }= req.body;
 
-        const usuarios= await usuario.update ({
-            nombre,
-            apellido,
-            gmail,
-            contraseña,
-        },{
+        const usuarios= await pedido.update ({
+            nombre: 'nombre',
+            apellido: 'apellido',
+            gmail: 'gmail',
+            contraseña: 'contraseña',
             where: {
-                id_usuario: id
+                id: 'id'
             }
         });
 
-        // await usuarios.save ();
+        await usuarios.save ();
 
         res.json (usuarios);
     } 
@@ -101,12 +106,14 @@ const update_usuarios= async (req, res) => {
 const delete_usuarios= async (req, res) => {
     try {
         const { id }= req.params;
-        
+
         const usuarios= await usuario.destroy ({
             where: {
-                id_usuario: id
+                id: 'id'
             }
         });
+
+        await usuarios.save ();
 
         res.json (usuarios);
     } 

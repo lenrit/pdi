@@ -48,10 +48,9 @@ const obtener_id_productos= async (req, res) => {
  */
 const insertar_productos= async (req, res) => {
     try {
-        const { id_producto,foto_producto, nombre_producto, precio_producto, stock_producto }= req.body
+        const { foto_producto, nombre_producto, precio_producto, stock_producto }= req.body
 
         const productos= await producto.create ({
-            id_producto,
             foto: foto_producto,
             nombre: nombre_producto,
             precio: precio_producto,
@@ -85,6 +84,8 @@ const update_productos= async (req, res) => {
             }
         });
 
+        await productos.save ();
+
         res.json (productos);
     } 
     catch (error){
@@ -106,6 +107,8 @@ const delete_productos= async (req, res) => {
                 id_producto: id
             }
         });
+
+        await productos.save ();
 
         res.json (productos);
     } 

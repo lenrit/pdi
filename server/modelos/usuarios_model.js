@@ -9,6 +9,7 @@ const usuarios= sequelize.define ('usuarios', {
         type: Sequelize.INTEGER,
         primaryKey: true, 
         allowNull: false,
+        unique: true
     },
     nombre: {
         type: Sequelize.STRING,
@@ -21,6 +22,9 @@ const usuarios= sequelize.define ('usuarios', {
     gmail: {
         type: Sequelize.STRING,
         allowNull: false,
+        unique: {
+            args: true,
+        },
         validate: {
             isEmail: true,
         }
@@ -29,13 +33,12 @@ const usuarios= sequelize.define ('usuarios', {
         type: Sequelize.STRING,
         allowNull: false,
         // validate: {
-        //     is: /^[0-9a-f]{64}$/i,
+        //     isPassword: /^[0-9a-f]{64}$/i,
         // }
     },
-},{
+}, {
     timestamps:false,
 });
 
 usuarios.sync ({ alter: true });
-console.log("usuarios");
 module.exports= usuarios;

@@ -29,7 +29,7 @@ const obtener_id_pedidos= async (req, res) => {
     try {
         const id_pedido= req.params.id;
 
-        const pedidos= await pedido.findByPk (id_pedido);
+        const pedidos= await pedido.find (id_pedido);
 
         res.json (pedidos);  
     } 
@@ -45,8 +45,7 @@ const obtener_id_pedidos= async (req, res) => {
  */
 const insertar_pedidos= async (req, res) => {
     try {
-        const {id_pedido, id_producto, id_usuario, cantidad}= req.body;
-        const pedidos= await pedido.create ({id_pedido, id_producto, id_usuario, cantidad});
+        const pedidos= await pedido.findOrCreate (id_pedido, id_producto, id_comerciante, cantidad, fecha);
 
         res.json (pedidos);
     } 
@@ -62,18 +61,20 @@ const insertar_pedidos= async (req, res) => {
  */
 const update_pedidos= async (req, res) => {
     try {
-        const { id_pedido }= req.params;
-        const { id_producto, id_usuario, cantidad }= req.body;
+        const { id_pedidos }= req.params;
+        const { id_producto, id_comerciante, cantidad, fecha }= req.body;
 
         const pedidos= await pedido.update ({
-            id_producto,
-            id_usuario,
-            cantidad,
-        },{
+            id_producto: 'id_producto',
+            id_comerciante: 'id_comerciante',
+            cantidad: 'cantidad',
+            fecha: 'fecha',
             where: {
-                id_pedido
+                id_pedido: 'id_pedido'
             }
         });
+
+        await pedidos.save ();
 
         res.json (pedidos);
     } 
@@ -93,9 +94,11 @@ const delete_pedidos= async (req, res) => {
 
         const pedidos= await pedido.destroy ({
             where: {
-                id_pedido
+                id_pedido: 'id_pedido'
             }
         });
+
+        await pedidos.save ();
 
         res.json (pedidos);
     } 

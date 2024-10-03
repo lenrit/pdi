@@ -15,7 +15,6 @@ const pedidos= sequelize.define ('pedidos', {
     },
     id_producto: {
         type: Sequelize.INTEGER,
-        // primaryKey: true,
         allowNull: false,
         references: {
             model: "productos",
@@ -24,7 +23,6 @@ const pedidos= sequelize.define ('pedidos', {
     },
     id_usuario: {
         type: Sequelize.INTEGER,
-        // primaryKey:true,
         allowNull: false,
         references: {
             model: "usuarios",
@@ -43,5 +41,7 @@ const pedidos= sequelize.define ('pedidos', {
 });
 
 pedidos.sync ({ alter: true });
+
 console.log("order");
+
 module.exports= pedidos;

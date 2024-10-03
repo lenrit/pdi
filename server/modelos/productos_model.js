@@ -8,7 +8,9 @@ const productos= db.define ('productos', {
     id_producto: {
         type: DataTypes.INTEGER,
         primaryKey: true,
-        allowNull:false
+        allowNull: false,
+        unique: true,
+        notNull: true
     },
     foto: {
         type: DataTypes.STRING,
@@ -19,7 +21,8 @@ const productos= db.define ('productos', {
     },
     precio: {
         type: DataTypes.INTEGER,
-        allowNull: false
+        allowNull: false,
+        isNumeric: true
     },
     stock: {
         type: DataTypes.INTEGER,
@@ -31,5 +34,4 @@ const productos= db.define ('productos', {
 });
 
 productos.sync ({ alter: true });
-console.log("productos");
 module.exports= productos;
