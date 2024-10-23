@@ -1,0 +1,47 @@
+html body {
+  background-color: #1a1a1a;
+  color: #f8c617;
+}
+footer {
+  text-align: center;
+  color: white;
+}
+.card .card-body, #popover, #my-popover  {
+  background-color: #1a1a1a;
+  border: none;
+  color: white;
+}
+.container .table .thead {
+  background-color: #1a1a1a;
+  border-color: #f8c617;
+}
+.card-body a {
+  color: #f8c617;
+  text-decoration: none;
+}
+.card {
+  text-align: center;
+  height: 100px;
+}
+.btn {
+  border-color: #f8c617;
+  color: #f8c617;
+}
+#datos_card, #datos_card h3 {
+  border-color: #f8c617;
+  color: #f8c617;
+}
+#form, #form_productos {
+  background-color: #1a1a1a;
+  border-color: #f8c617;
+  color: #f8c617;
+  max-width: 600px;
+  margin: 20px auto;
+}
+/* checkbox: proveedores/comerciantes */
+input[type="checkbox"]:checked + label {
+  appearance: none;
+  color: #f8c617;
+}
+
+/*# sourceMappingURL=main.css.map */
