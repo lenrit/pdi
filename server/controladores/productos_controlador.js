@@ -48,13 +48,13 @@ const obtener_id_productos= async (req, res) => {
  */
 const insertar_productos= async (req, res) => {
     try {
-        const { foto_producto, nombre_producto, precio_producto, stock_producto }= req.body
+        const { foto, nombre, precio, stock }= req.body
 
         const productos= await producto.create ({
-            foto: foto_producto,
-            nombre: nombre_producto,
-            precio: precio_producto,
-            stock: stock_producto
+            foto,
+            nombre,
+            precio,
+            stock 
         });
 
         res.json (productos);

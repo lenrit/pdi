@@ -10,7 +10,8 @@ const productos= db.define ('productos', {
         primaryKey: true,
         allowNull: false,
         unique: true,
-        notNull: true
+        notNull: true,
+        autoIncrement:true
     },
     foto: {
         type: DataTypes.STRING,
@@ -33,5 +34,6 @@ const productos= db.define ('productos', {
     timestamps:false,
 });
 
-productos.sync ({ alter: true });
+// productos.sync ({ alter: true });
+productos.sync();
 module.exports= productos;

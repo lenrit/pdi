@@ -1,7 +1,9 @@
 const express= require ('express');
 const promiseQuery= require ('../config/data_base');
 const usuario= require ('../modelos/usuarios_model');
+const jwt=require('jsonwebtoken')
 const { hashSync } = require('bcrypt');
+const verificarCookie=require('../middleware/auth_login')
 const bcrypt= require ('bcrypt');
 const salt_rounds= 10;
 
@@ -42,7 +44,22 @@ const obtener_id= async (req, res) => {
         throw error;
     }
 }
-
+const user_login=async (req,res)=>{
+    verificarCookie.authenticateToken()
+}
+const logear=async(req,res)=>{
+    const {correo,password}=req.body;
+    const usuarios=usuario.findOne({where:{gmail:correo}});
+    const contraseña= await bcrypt.hash (password, salt_rounds);
+    bcrypt.compare(contraseña,usuarios.password,async (req,res)=>{
+        if(res==true){
+            res.send("true");
+        }
+    })
+    const token = jwt.sign({correo, contraseña}, process.env.JWT_SECRET);
+    res.cookie('authcookie',token,{maxAge:900000,httpOnly:true});
+    res.json(usuarios);
+}
 /**
  * insertar un usuario
  * @param { * } req 
@@ -50,7 +67,7 @@ const obtener_id= async (req, res) => {
  */
 const insertar_usuarios= async (req, res) => {
     try {
-        const { nombre, apellido, gmail, password }= req.body
+        const {dni, nombre, apellido, gmail, password }= req.body
         if(!regExPassword.test(password)){
             res.json({message:"contraseña invalida"});
             return false;
@@ -60,7 +77,7 @@ const insertar_usuarios= async (req, res) => {
             res.json({message:"correo invalido"});
             return false;
         }
-        const usuarios= await usuario.create ({id_usuario,nombre, apellido, gmail, contraseña});
+        const usuarios= await usuario.create ({dni,nombre, apellido, gmail, contraseña});
 
         res.json (usuarios);
     } 
@@ -123,6 +140,8 @@ const delete_usuarios= async (req, res) => {
 }
 
 module.exports= {
+    logear,
+    user_login,
     obtener_usuarios,
     obtener_id,
     insertar_usuarios,

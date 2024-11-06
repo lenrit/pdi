@@ -21,12 +21,12 @@ const pedidos= sequelize.define ('pedidos', {
             key: 'id_producto'
           }
     },
-    id_usuario: {
+    dni: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
             model: "usuarios",
-            key: 'id_usuario'
+            key: 'dni'
           }
     },
     cantidad: {
@@ -40,8 +40,8 @@ const pedidos= sequelize.define ('pedidos', {
     timestamps:true,
 });
 
-pedidos.sync ({ alter: true });
-
+// pedidos.sync ({ alter: true });
+pedidos.sync();
 console.log("order");
 
 module.exports= pedidos;

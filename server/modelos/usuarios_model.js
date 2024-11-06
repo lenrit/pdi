@@ -5,7 +5,7 @@ const sequelize= require ('../config/data_base');
  * estructura de la tabla usuarios
  */
 const usuarios= sequelize.define ('usuarios', {
-    id_usuario: {
+    dni: {
         type: Sequelize.INTEGER,
         primaryKey: true, 
         allowNull: false,
@@ -40,5 +40,6 @@ const usuarios= sequelize.define ('usuarios', {
     timestamps:false,
 });
 
-usuarios.sync ({ alter: true });
+// usuarios.sync ({ alter: true });
+usuarios.sync();
 module.exports= usuarios;
